@@ -1,0 +1,54 @@
+# === 构建产物 ===
+target/
+*.jar
+*.class
+dist/
+dist-ssr/
+dist-desktop/
+release/
+
+# === 依赖 ===
+node_modules/
+
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# === 日志 ===
+*.log
+LOG_FILE_IS_UNDEFINED*
+
+# === 数据库运行时文件 ===
+*.mv.db
+*.trace.db
+
+# === Maven ===
+.flattened-pom.xml
+
+# === 敏感配置文件（含密钥/密码，不提交）===
+# 前端
+yudao-ui-admin-vue3-master/.env
+yudao-ui-admin-vue3-master/.env.local
+yudao-ui-admin-vue3-master/.env.desktop
+
+# 后端 — 环境专属配置（含数据库密码、服务器IP）
+**/application-local.yaml
+**/application-desktop.yaml
+
+# 后端 — 主配置（含大量 AI API Key）
+ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/application.yaml
+
+# 后端 — 开发配置（含微信/钉钉 secret）
+ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/application-dev.yaml
+
+# === 框架 SQL/H2 数据（含示例云服务密钥，被 GitHub Secret Scanning 拦截）===
+ruoyi-vue-pro-master-jdk17/sql/
+ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/sql/
+
+# === 其他 ===
+*.swp
+*.xml.versionsBackup
