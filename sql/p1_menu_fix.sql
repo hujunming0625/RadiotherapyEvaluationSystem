@@ -1,4 +1,5 @@
--- 摊平菜单结构：删除中间分组目录，所有页面直挂顶级目录下
+-- 摊平菜单结构 + 完整角色权限配置
+-- 按照需求文档的菜单权限矩阵严格执行
 START TRANSACTION;
 
 -- 1. 删除旧角色授权
@@ -10,7 +11,7 @@ DELETE FROM `ruoyi-vue-pro`.`system_menu` WHERE id IN (7001, 7010, 7020, 7030);
 -- 3. 将所有叶子菜单的 parent_id 改为 7000
 UPDATE `ruoyi-vue-pro`.`system_menu` SET parent_id=7000 WHERE id IN (7002, 7003, 7011, 7012, 7013, 7014, 7015, 7016, 7021, 7031);
 
--- 4. 更新三级菜单的 path 确保正确（去冗余前缀）
+-- 4. 更新三级菜单的 path 确保正确
 UPDATE `ruoyi-vue-pro`.`system_menu` SET path='submit-event' WHERE id=7002;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET path='my-reports' WHERE id=7003;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET path='dept-process' WHERE id=7011;
@@ -34,17 +35,20 @@ UPDATE `ruoyi-vue-pro`.`system_menu` SET sort=8 WHERE id=7016;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET sort=9 WHERE id=7021;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET sort=10 WHERE id=7031;
 
--- 6. 维护功能(7040)确保 path 正确，子菜单也在维护功能下
+-- 6. 维护功能(7040)确保 path 正确
 UPDATE `ruoyi-vue-pro`.`system_menu` SET path='/radiotherapy' WHERE id=7040;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET parent_id=7040, sort=1, path='template' WHERE id=7041;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET parent_id=7040, sort=2, path='template-item' WHERE id=7042;
 UPDATE `ruoyi-vue-pro`.`system_menu` SET parent_id=7040, sort=3, path='committee' WHERE id=7043;
 
--- 7. 重新授权角色菜单
+-- ============================================================
+-- 7. 重新授权角色菜单（按需求文档权限矩阵）
+-- ============================================================
 
--- 超级管理员(1): 全部
+-- 超级管理员(1): 全部菜单
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time)
-SELECT 1, id, '1', NOW(), '1', NOW() FROM `ruoyi-vue-pro`.`system_menu` WHERE id IN (7000, 7002, 7003, 7011, 7012, 7013, 7014, 7015, 7016, 7021, 7031, 7040, 7041, 7042, 7043) AND deleted=0;
+SELECT 1, id, '1', NOW(), '1', NOW() FROM `ruoyi-vue-pro`.`system_menu`
+WHERE id IN (7000, 7002, 7003, 7011, 7012, 7013, 7014, 7015, 7016, 7021, 7031, 7040, 7041, 7042, 7043) AND deleted=0;
 
 -- 上报人(200): 上报事件 + 我的报告
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time) VALUES
@@ -52,14 +56,14 @@ INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, creat
 (200, 7002, '1', NOW(), '1', NOW()),
 (200, 7003, '1', NOW(), '1', NOW());
 
--- 科室负责人(201): 上报 + 科室处理
+-- 科室负责人(201): 上报事件 + 我的报告 + 科室处理
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time) VALUES
 (201, 7000, '1', NOW(), '1', NOW()),
 (201, 7002, '1', NOW(), '1', NOW()),
 (201, 7003, '1', NOW(), '1', NOW()),
 (201, 7011, '1', NOW(), '1', NOW());
 
--- 职能部门负责人(202): 上报 + 职能部门处理 + 查询 + 追踪
+-- 职能部门负责人(202): 上报事件 + 我的报告 + 职能部门处理 + 事件查询 + 事件追踪
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time) VALUES
 (202, 7000, '1', NOW(), '1', NOW()),
 (202, 7002, '1', NOW(), '1', NOW()),
@@ -68,15 +72,19 @@ INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, creat
 (202, 7015, '1', NOW(), '1', NOW()),
 (202, 7016, '1', NOW(), '1', NOW());
 
--- 院领导(203): 院领导处理 + 查询
+-- 院领导(203): 上报事件 + 我的报告 + 院领导处理 + 事件查询
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time) VALUES
 (203, 7000, '1', NOW(), '1', NOW()),
+(203, 7002, '1', NOW(), '1', NOW()),
+(203, 7003, '1', NOW(), '1', NOW()),
 (203, 7013, '1', NOW(), '1', NOW()),
 (203, 7015, '1', NOW(), '1', NOW());
 
--- 质量委员会成员(204): 委员会处理 + 查询
+-- 质量委员会成员(204): 上报事件 + 我的报告 + 质量委员会处理 + 事件查询
 INSERT INTO `ruoyi-vue-pro`.`system_role_menu` (role_id, menu_id, creator, create_time, updater, update_time) VALUES
 (204, 7000, '1', NOW(), '1', NOW()),
+(204, 7002, '1', NOW(), '1', NOW()),
+(204, 7003, '1', NOW(), '1', NOW()),
 (204, 7014, '1', NOW(), '1', NOW()),
 (204, 7015, '1', NOW(), '1', NOW());
 

@@ -82,4 +82,4 @@ const setupAll = async () => {
 
 setupAll()
 
-Logger.prettyPrimary(`欢迎使用`, import.meta.env.VITE_APP_TITLE)
+Logger.prettyPrimary(`欢迎使用放疗效果综合评估系统`, import.meta.env.VITE_APP_TITLE)

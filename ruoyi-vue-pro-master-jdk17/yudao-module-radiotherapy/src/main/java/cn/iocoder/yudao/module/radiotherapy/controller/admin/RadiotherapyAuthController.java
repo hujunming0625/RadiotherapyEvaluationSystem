@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -36,19 +33,13 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @TenantIgnore
 public class RadiotherapyAuthController {
 
+    private static final Long DEFAULT_ROLE_ID = 200L; // 上报人角色
+
     @Resource
     private AdminUserService adminUserService;
 
     @Resource
     private PermissionService permissionService;
-
-    private static final Map<String, Long> ROLE_TYPE_MAP = new HashMap<>();
-
-    static {
-        ROLE_TYPE_MAP.put("REPORTER", 200L);
-        ROLE_TYPE_MAP.put("DEPT_LEADER", 201L);
-        ROLE_TYPE_MAP.put("FUNC_LEADER", 202L);
-    }
 
     @PostMapping("/register")
     @PermitAll
@@ -65,7 +56,7 @@ public class RadiotherapyAuthController {
             throw new IllegalArgumentException("用户名已存在");
         }
 
-        // 3. 创建用户并分配角色（使用默认租户 1）
+        // 3. 创建用户并分配默认上报人角色（使用默认租户 1）
         Long userId = TenantUtils.execute(1L, () -> {
             UserSaveReqVO createReqVO = new UserSaveReqVO();
             createReqVO.setUsername(reqVO.getUsername());
@@ -76,9 +67,8 @@ public class RadiotherapyAuthController {
             }
             Long uid = adminUserService.createUser(createReqVO);
 
-            // 4. 分配角色
-            Long roleId = ROLE_TYPE_MAP.getOrDefault(reqVO.getRoleType(), 200L);
-            permissionService.assignUserRole(uid, Collections.singleton(roleId));
+            // 4. 默认分配上报人角色
+            permissionService.assignUserRole(uid, Collections.singleton(DEFAULT_ROLE_ID));
             return uid;
         });
 

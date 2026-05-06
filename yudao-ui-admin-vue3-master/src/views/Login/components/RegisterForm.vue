@@ -36,20 +36,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="24" class="px-10px">
-        <el-form-item prop="roleType">
-          <el-select
-            v-model="registerData.registerForm.roleType"
-            placeholder="选择角色类型"
-            class="w-full"
-            size="large"
-          >
-            <el-option label="上报人" value="REPORTER" />
-            <el-option label="科室负责人" value="DEPT_LEADER" />
-            <el-option label="职能部门负责人" value="FUNC_LEADER" />
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px">
         <el-form-item prop="password">
           <el-input
             v-model="registerData.registerForm.password"
@@ -127,9 +113,6 @@ const registerRules = {
   phone: [
     { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
   ],
-  roleType: [
-    { required: true, trigger: 'change', message: '请选择角色类型' }
-  ],
   password: [
     { required: true, trigger: 'blur', message: '请输入您的密码' },
     { min: 6, max: 16, message: '密码长度必须介于 6 和 16 之间', trigger: 'blur' }
@@ -144,7 +127,6 @@ const registerData = reactive({
   registerForm: {
     username: '',
     phone: '',
-    roleType: 'REPORTER',
     password: '',
     confirmPassword: ''
   }

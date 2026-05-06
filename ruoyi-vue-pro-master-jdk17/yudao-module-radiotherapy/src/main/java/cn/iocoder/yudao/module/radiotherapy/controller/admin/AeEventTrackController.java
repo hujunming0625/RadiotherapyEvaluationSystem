@@ -32,7 +32,7 @@ public class AeEventTrackController {
     @GetMapping("/page")
     @Operation(summary = "获得追踪分页")
     public CommonResult<PageResult<AeEventTrackRespVO>> getPage(@Valid PageParam pageReqVO) {
-        PageResult<AeEventTrackDO> pageResult = trackMapper.selectPage(pageReqVO, null);
+        PageResult<AeEventTrackDO> pageResult = trackMapper.selectPage(pageReqVO);
         PageResult<AeEventTrackRespVO> result = BeanUtils.toBean(pageResult, AeEventTrackRespVO.class);
         result.getList().forEach(vo -> {
             AeAdverseEventDO event = eventMapper.selectById(vo.getEventId());

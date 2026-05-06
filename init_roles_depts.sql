@@ -1,11 +1,11 @@
 SET NAMES utf8mb4;
 
 INSERT INTO `ruoyi-vue-pro`.system_role (id, name, code, sort, data_scope, status, type, remark, tenant_id) VALUES
-(200, '上报人', 'ROLE_REPORTER', 10, 1, 0, 2, '不良事件上报人员', 0),
-(201, '科室负责人', 'ROLE_DEPT_LEADER', 11, 1, 0, 2, '科室负责人，处理本科室事件', 0),
-(202, '职能部门负责人', 'ROLE_FUNC_LEADER', 12, 1, 0, 2, '职能部门负责人，处理分配事件', 0),
+(200, '上报人', 'ROLE_REPORTER', 10, 5, 0, 2, '不良事件上报人员，仅查看本人上报事件', 0),
+(201, '科室负责人', 'ROLE_DEPT_LEADER', 11, 3, 0, 2, '科室负责人，查看本科室相关事件', 0),
+(202, '职能部门负责人', 'ROLE_FUNC_LEADER', 12, 2, 0, 2, '职能部门负责人，查看本部门需处理事件', 0),
 (203, '院领导', 'ROLE_HOSPITAL_LEADER', 13, 1, 0, 2, '院领导，审核I/II级事件', 0),
-(204, '质量委员会成员', 'ROLE_COMMITTEE', 14, 1, 0, 2, '质量委员会成员，参与投票', 0);
+(204, '质量委员会成员', 'ROLE_COMMITTEE', 14, 2, 0, 2, '质量委员会成员，查看委员会讨论事件', 0);
 
 INSERT INTO `ruoyi-vue-pro`.system_role_menu (role_id, menu_id, tenant_id) VALUES
 (200, 5986, 0), (201, 5986, 0), (202, 5986, 0), (203, 5986, 0), (204, 5986, 0);

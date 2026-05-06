@@ -34,6 +34,7 @@ LOG_FILE_IS_UNDEFINED*
 yudao-ui-admin-vue3-master/.env
 yudao-ui-admin-vue3-master/.env.local
 yudao-ui-admin-vue3-master/.env.desktop
+yudao-ui-admin-vue3-master/.env.prod
 
 # 后端 — 环境专属配置（含数据库密码、服务器IP）
 **/application-local.yaml
@@ -44,6 +45,17 @@ ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/application.yaml
 
 # 后端 — 开发配置（含微信/钉钉 secret）
 ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/application-dev.yaml
+
+# 后端 — 服务器配置（含数据库密码 Aa123456）
+ruoyi-vue-pro-master-jdk17/yudao-server/src/main/resources/application-server.yaml
+
+# === 部署/测试脚本（含 SSH 密码、服务器 IP）===
+deploy_all.py
+deploy_frontend.py
+run_menu_cleanup_v2.py
+test_frontend.py
+test_p1.py
+test_p2_p5.py
 
 # === 框架 SQL/H2 数据（含示例云服务密钥，被 GitHub Secret Scanning 拦截）===
 ruoyi-vue-pro-master-jdk17/sql/

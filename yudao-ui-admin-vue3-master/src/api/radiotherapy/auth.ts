@@ -5,7 +5,6 @@ export interface RegisterReqVO {
   password: string
   confirmPassword: string
   phone?: string
-  roleType: string
 }
 
 export const register = (data: RegisterReqVO) => {

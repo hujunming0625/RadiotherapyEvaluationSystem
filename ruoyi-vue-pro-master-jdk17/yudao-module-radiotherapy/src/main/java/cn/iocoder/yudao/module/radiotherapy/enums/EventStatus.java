@@ -19,4 +19,13 @@ public enum EventStatus {
 
     private final Integer code;
     private final String name;
+
+    public static String getDescByCode(Integer code) {
+        for (EventStatus status : values()) {
+            if (status.code.equals(code)) {
+                return status.name;
+            }
+        }
+        return "未知状态";
+    }
 }

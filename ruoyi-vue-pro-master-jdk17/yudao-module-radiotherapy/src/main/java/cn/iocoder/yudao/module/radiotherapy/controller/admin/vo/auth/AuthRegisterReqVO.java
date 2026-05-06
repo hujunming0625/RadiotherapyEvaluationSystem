@@ -28,9 +28,4 @@ public class AuthRegisterReqVO {
     @Schema(description = "手机号码", example = "13800138000")
     @Pattern(regexp = "^(1[3-9]\\d{9})?$", message = "手机号格式不正确")
     private String phone;
-
-    @Schema(description = "角色类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "REPORTER")
-    @NotBlank(message = "角色类型不能为空")
-    @Pattern(regexp = "^(REPORTER|DEPT_LEADER|FUNC_LEADER)$", message = "角色类型只能是 REPORTER、DEPT_LEADER 或 FUNC_LEADER")
-    private String roleType;
 }

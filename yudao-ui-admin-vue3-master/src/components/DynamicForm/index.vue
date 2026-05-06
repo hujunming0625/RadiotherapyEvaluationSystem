@@ -41,11 +41,11 @@
       />
       <!-- RADIO -->
       <el-radio-group v-else-if="item.fieldType === 'RADIO'" v-model="formData['field_' + item.id]">
-        <el-radio v-for="opt in getOptions(item)" :key="opt.value" :value="opt.value">{{ opt.label }}</el-radio>
+        <el-radio v-for="opt in resolveOptions(item)" :key="opt.value" :value="opt.value">{{ opt.label }}</el-radio>
       </el-radio-group>
       <!-- CHECKBOX -->
       <el-checkbox-group v-else-if="item.fieldType === 'CHECKBOX'" v-model="formData['field_' + item.id]">
-        <el-checkbox v-for="opt in getOptions(item)" :key="opt.value" :value="opt.value">{{ opt.label }}</el-checkbox>
+        <el-checkbox v-for="opt in resolveOptions(item)" :key="opt.value" :value="opt.value">{{ opt.label }}</el-checkbox>
       </el-checkbox-group>
       <!-- SELECT -->
       <el-select
@@ -55,7 +55,7 @@
         clearable
         class="w-full"
       >
-        <el-option v-for="opt in getOptions(item)" :key="opt.value" :label="opt.label" :value="opt.value" />
+        <el-option v-for="opt in resolveOptions(item)" :key="opt.value" :label="opt.label" :value="opt.value" />
       </el-select>
       <!-- NUMBER -->
       <el-input-number
@@ -64,25 +64,6 @@
         :placeholder="item.placeholder || '请输入数字'"
         class="w-full"
       />
-      <!-- FILE -->
-      <el-upload
-        v-else-if="item.fieldType === 'FILE'"
-        :auto-upload="false"
-        :limit="5"
-        :placeholder="item.placeholder"
-      >
-        <el-button>选择文件</el-button>
-      </el-upload>
-      <!-- RICH_TEXT -->
-      <div v-else-if="item.fieldType === 'RICH_TEXT'" class="w-full border rounded-4px p-8px min-h-120px">
-        <el-input
-          v-model="formData['field_' + item.id]"
-          type="textarea"
-          :rows="6"
-          :placeholder="item.placeholder || '请输入' + item.label"
-        />
-        <span class="text-12px text-[var(--el-text-color-disabled)]">V1 使用多行文本，V2 接入富文本编辑器</span>
-      </div>
       <!-- Default: TEXT -->
       <el-input
         v-else
@@ -95,6 +76,7 @@
 
 <script setup lang="ts">
 import type { TemplateItemVO } from '@/api/radiotherapy/template-item'
+import { getDictDataByType } from '@/api/system/dict/dict.data'
 
 defineOptions({ name: 'DynamicForm' })
 
@@ -111,10 +93,47 @@ const formData = computed({
   set: (v) => emit('update:modelValue', v)
 })
 
+// 字典缓存
+const dictCache = new Map<string, { label: string; value: string }[]>()
+
 const getOptions = (item: TemplateItemVO): { label: string; value: string }[] => {
   if (item.options) {
     try { return JSON.parse(item.options) } catch { return [] }
   }
   return []
 }
+
+const resolveOptions = (item: TemplateItemVO): { label: string; value: string }[] => {
+  // 优先使用静态 options
+  const staticOpts = getOptions(item)
+  if (staticOpts.length > 0) return staticOpts
+  // 其次从字典加载
+  if (item.dictType && dictCache.has(item.dictType)) {
+    return dictCache.get(item.dictType)!
+  }
+  return []
+}
+
+// 预加载字典数据
+const loadDictData = async () => {
+  const dictTypes = new Set<string>()
+  for (const item of props.items) {
+    if (item.dictType && !item.options) {
+      dictTypes.add(item.dictType)
+    }
+  }
+  for (const dictType of dictTypes) {
+    if (!dictCache.has(dictType)) {
+      try {
+        const data = await getDictDataByType(dictType)
+        const options = (data || []).map((d: any) => ({ label: d.label, value: d.value }))
+        dictCache.set(dictType, options)
+      } catch {
+        dictCache.set(dictType, [])
+      }
+    }
+  }
+}
+
+watch(() => props.items, () => { loadDictData() }, { immediate: true })
 </script>
