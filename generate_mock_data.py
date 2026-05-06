@@ -15,12 +15,12 @@ TENANT_ID = 0
 
 # Users to create (start ID at 154)
 USERS = [
-    {"id": 154, "username": "doctor_zhang", "nickname": "张伟", "dept_id": 200, "role_id": 200, "sex": 1, "mobile": "13800001001"},
-    {"id": 155, "username": "doctor_li", "nickname": "李芳", "dept_id": 201, "role_id": 200, "sex": 2, "mobile": "13800001002"},
-    {"id": 156, "username": "dept_wang", "nickname": "王强", "dept_id": 200, "role_id": 201, "sex": 1, "mobile": "13800001003"},
-    {"id": 157, "username": "func_chen", "nickname": "陈静", "dept_id": 205, "role_id": 202, "sex": 2, "mobile": "13800001004"},
-    {"id": 158, "username": "leader_zhao", "nickname": "赵明", "dept_id": 1, "role_id": 203, "sex": 1, "mobile": "13800001005"},
-    {"id": 159, "username": "committee_liu", "nickname": "刘洋", "dept_id": 206, "role_id": 204, "sex": 1, "mobile": "13800001006"},
+    {"id": 154, "username": "doctorzhang", "nickname": "张伟", "dept_id": 200, "role_id": 200, "sex": 1, "mobile": "13800001001"},
+    {"id": 155, "username": "doctorli", "nickname": "李芳", "dept_id": 201, "role_id": 200, "sex": 2, "mobile": "13800001002"},
+    {"id": 156, "username": "deptwang", "nickname": "王强", "dept_id": 200, "role_id": 201, "sex": 1, "mobile": "13800001003"},
+    {"id": 157, "username": "funcchen", "nickname": "陈静", "dept_id": 205, "role_id": 202, "sex": 2, "mobile": "13800001004"},
+    {"id": 158, "username": "leaderzhao", "nickname": "赵明", "dept_id": 1, "role_id": 203, "sex": 1, "mobile": "13800001005"},
+    {"id": 159, "username": "committeeliu", "nickname": "刘洋", "dept_id": 206, "role_id": 204, "sex": 1, "mobile": "13800001006"},
 ]
 REPORTER_IDS = [154, 155]  # doctor_zhang, doctor_li
 DEPT_HEAD_ID = 156  # dept_wang

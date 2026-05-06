@@ -93,6 +93,7 @@
 import { getTemplatePage } from '@/api/radiotherapy/template'
 import { getItemsByTemplateId, TemplateItemVO } from '@/api/radiotherapy/template-item'
 import { createEvent } from '@/api/radiotherapy/event'
+import { getSimpleDeptList } from '@/api/system/dept'
 import DynamicForm from '@/components/DynamicForm/index.vue'
 
 defineOptions({ name: 'RadiotherapySubmitEvent' })
@@ -196,10 +197,9 @@ const resetForm = () => {
 }
 
 onMounted(async () => {
-  // Load department list for step 3
   try {
-    const res = await getTemplatePage({ pageNo: 1, pageSize: 100, status: 1 })
-    // Use template categories as a quick way to validate
+    const depts = await getSimpleDeptList()
+    deptOptions.value = depts.map((d) => ({ label: d.name, value: d.id }))
   } catch { /* ignore */ }
 })
 </script>
